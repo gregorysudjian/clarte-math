@@ -4,14 +4,14 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 // variable; the session is a signed, expiring cookie. Changing the password
 // signs everyone out.
 
-export const SESSION_COOKIE = "northstar_hq_session";
+export const SESSION_COOKIE = "clarte_hq_session";
 const MAX_AGE = 60 * 60 * 24 * 30;
 
 const sha256 = (value: string) => createHash("sha256").update(value).digest();
 
 function signingKey() {
   const password = process.env.HQ_PASSWORD;
-  return password ? sha256(`northstar-hq:${process.env.HQ_SESSION_SECRET || ""}:${password}`) : null;
+  return password ? sha256(`clarte-hq:${process.env.HQ_SESSION_SECRET || ""}:${password}`) : null;
 }
 
 const sign = (key: Buffer, value: string) => createHmac("sha256", key).update(value).digest("base64url");

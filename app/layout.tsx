@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: { type: "website", locale: "en_CA", alternateLocale: "fr_CA", url: site.url, siteName: site.name, title: "Math tutoring, explained clearly", description },
   twitter: { card: "summary", title: site.name, description },
-  icons: { icon: "/favicon.svg" },
 };
 
 const structuredData = {

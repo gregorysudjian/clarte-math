@@ -35,7 +35,7 @@ export function HqWorkspace({ section, data }: { section: Section; data: HqData 
     <HqContext.Provider value={context}>
       <div className="hq-app">
         <aside className="hq-sidebar">
-          <Link className="hq-brand" href="/hq"><span>N</span><b>Northstar <em>HQ</em></b></Link>
+          <Link className="hq-brand" href="/hq"><span>C</span><b>Clarté <em>HQ</em></b></Link>
           <nav aria-label="HQ">
             {(Object.keys(SECTION_TITLES) as Section[]).map((id) => (
               <Link key={id} href={id === "overview" ? "/hq" : `/hq/${id}`} aria-current={section === id ? "page" : undefined}>

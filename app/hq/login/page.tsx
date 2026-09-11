@@ -14,7 +14,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <main className="hq-login">
       <section className="hq-login-brand">
-        <Link className="hq-brand" href="/"><span>N</span><b>Northstar <em>HQ</em></b></Link>
+        <Link className="hq-brand" href="/"><span>C</span><b>Clarté <em>HQ</em></b></Link>
         <div>
           <h1>Your tutoring, <span>organized.</span></h1>
           <p>Requests, clients, lessons, payments and notes, all in one place.</p>

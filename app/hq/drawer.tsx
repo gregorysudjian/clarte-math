@@ -7,7 +7,7 @@ import { dollars, formatDate, label, localInput, money, phone } from "./format";
 import { Badge, Field, Money, Options, Submit, activeClients, stateOf, useHq, type Panel, type RecordState } from "./ui";
 
 const GRADES = [...Array.from({ length: 6 }, (_, i) => `Grade ${i + 1}`), ...Array.from({ length: 5 }, (_, i) => `Secondary ${i + 1}`), "CEGEP 1", "CEGEP 2"];
-const SIGNATURE = "Best,\nGregory\nNorthstar Learning Montreal";
+const SIGNATURE = "Best,\nGregory\nClarté Math";
 
 const TITLES: Record<Panel["kind"], [string, string]> = {
   request: ["Request", "Request"],
