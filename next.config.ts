@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Hide the Next.js dev-tools button (it only exists in `npm run dev`).
+  devIndicators: false,
   async headers() {
     return [
       {
