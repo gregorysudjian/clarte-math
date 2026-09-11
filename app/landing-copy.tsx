@@ -1,0 +1,178 @@
+import type { IconName } from "./components/icons";
+
+// All landing-page wording lives here. Edit English and French together.
+
+export const copy = {
+  en: {
+    nav: [["Approach", "#approach"], ["Levels", "#levels"], ["About", "#about"], ["FAQ", "#faq"]],
+    cta: "Request tutoring",
+    hero: {
+      eyebrow: "One-on-one math tutoring · Montreal",
+      title: ["Math can make ", "sense", ". Let’s work through it together."],
+      body: "Patient, focused tutoring from Grade 1 to CEGEP, in person in Montreal or online, in English or French.",
+      primary: "Request tutoring",
+      secondary: "What I teach",
+      note: "No commitment. We talk first.",
+      tutor: { name: "Gregory", role: "Math tutor · McGill Computer Engineering", link: "About me" },
+      lesson: { label: "Today’s lesson", lines: ["3x + 4 = 19", "3x = 15", "x = 5"], note: "One step at a time" },
+    },
+    marquee: ["Clear explanations", "Homework help", "Exam preparation", "Confidence in class", "Grade 1 to CEGEP", "English or French"],
+    intro: {
+      eyebrow: "Why Northstar",
+      title: "One-on-one math support for every level and pace.",
+      stats: [["1:1", "Every lesson is one-on-one"], ["Gr. 1–CEGEP", "Every level covered"], ["EN · FR", "Lessons in either language"], ["MTL + online", "At home or by video"]],
+    },
+    services: {
+      items: [
+        { icon: "math" as IconName, title: "Understand the concepts", text: "Find where it stopped making sense and rebuild it clearly." },
+        { icon: "target" as IconName, title: "Homework help", text: "Work through current assignments and learn from mistakes." },
+        { icon: "calendar" as IconName, title: "Test & exam prep", text: "Targeted review for course exams and the Secondary IV ministerial exam." },
+        { icon: "spark" as IconName, title: "Catch up & raise grades", text: "Fill gaps while keeping up with the current course." },
+      ],
+    },
+    levels: {
+      eyebrow: "Who I tutor",
+      title: "Support for every grade",
+      ask: "Ask about your course",
+      items: [
+        { title: "Elementary", text: "Strong foundations and confidence with numbers, operations, fractions, and problem solving.", tags: ["Grades 1–6", "Foundations", "Homework"] },
+        { title: "Secondary", text: "Clear methods for longer problems, and focused preparation for tests and the ministerial exam.", tags: ["Sec 1–5", "Algebra & functions", "Ministerial exam"] },
+        { title: "CEGEP", text: "Difficult ideas slowed down and connected to the course, with practice on the problems that count.", tags: ["Pre-calculus", "Calculus", "Linear algebra"] },
+      ],
+    },
+    about: {
+      eyebrow: "Your tutor",
+      title: "Hi, I’m Gregory.",
+      body: "I’m a Computer Engineering student at McGill with experience tutoring math to students of all ages and levels. We slow down, find the step that’s causing trouble, and build from there, without judgment. The goal is to understand how to reach the answer, not just the answer.",
+      facts: ["English and French", "All ages and levels", "Montreal and online"],
+      linkedin: "LinkedIn profile",
+      approach: "How every lesson works",
+      steps: [
+        { title: "Start from real work", text: "We begin with what the student is doing in class." },
+        { title: "Find the sticking point", text: "Pinpoint the exact step causing trouble." },
+        { title: "Explain & practise", text: "A clear explanation, then guided practice." },
+        { title: "Build independence", text: "Make sure they can continue on their own." },
+      ],
+    },
+    faq: {
+      eyebrow: "Questions",
+      title: "Common questions",
+      more: "Something else?",
+      items: [
+        ["How much does it cost?", "Ask for the current rate. Price and lesson length are confirmed before anything is booked."],
+        ["How long is a lesson?", "It depends on the student’s age and needs. We choose a length together."],
+        ["Where do lessons happen?", "In person in Montreal at a location we agree on, or online by video with screen sharing."],
+        ["What if I need to cancel?", "Let me know as early as possible. Any cancellation terms are agreed before booking."],
+        ["What should the student bring?", "Current notes, assignments, or questions that caused trouble. Online students can send photos ahead of time."],
+      ],
+    },
+    booking: {
+      eyebrow: "Get started",
+      title: "Tell me what’s going on",
+      body: "Send a short request. It’s not a booking. I’ll get back to you to talk it through.",
+      steps: ["Send the request", "We discuss needs, rate, and schedule", "Start the first lesson"],
+      privacy: "Your information is only used to answer your request.",
+      fields: { name: "Your name", email: "Email", phone: "Phone", requester: "I am the…", grade: "Grade", subject: "Help needed", format: "Format", date: "Preferred times", message: "What is the student working on?" },
+      placeholders: { name: "Full name", email: "name@example.com", phone: "(514) 555-0123", date: "e.g. Tuesdays after 5 p.m.", message: "Course, topic, and any upcoming test." },
+      options: {
+        choose: "Choose…",
+        requester: [["parent", "Parent / guardian"], ["student", "Student"]] as [string, string][],
+        grades: ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Secondary 1", "Secondary 2", "Secondary 3", "Secondary 4", "Secondary 5", "CEGEP 1", "CEGEP 2"],
+        subjects: ["Understanding the course", "Homework help", "Test or exam preparation", "Not sure yet"],
+        formats: ["In person", "Online", "Either works"],
+      },
+      submit: "Send request", sending: "Sending…", successTitle: "Request received.", success: "I’ll be in touch soon.",
+      error: "Something went wrong. Please try again.", notConfigured: "The form is unavailable right now. Please",
+      emailDirectly: "email me directly", required: "Required", invalidEmail: "Enter a valid email.", invalidPhone: "Enter a valid phone number.",
+      emailSubject: "Math tutoring request",
+    },
+    footer: { tagline: "One-on-one math tutoring from Grade 1 to CEGEP, in Montreal and online.", privacy: "Privacy", terms: "Terms", owner: "Owner login" },
+  },
+  fr: {
+    nav: [["Approche", "#approach"], ["Niveaux", "#levels"], ["À propos", "#about"], ["FAQ", "#faq"]],
+    cta: "Demander du tutorat",
+    hero: {
+      eyebrow: "Tutorat individuel en mathématiques · Montréal",
+      title: ["Les maths peuvent devenir ", "claires", ". Travaillons-y ensemble."],
+      body: "Un tutorat patient et ciblé, du primaire au cégep, en personne à Montréal ou en ligne, en français ou en anglais.",
+      primary: "Demander du tutorat",
+      secondary: "Matières couvertes",
+      note: "Aucun engagement. On se parle d’abord.",
+      tutor: { name: "Gregory", role: "Tuteur en maths · Génie informatique, McGill", link: "À propos" },
+      lesson: { label: "Séance du jour", lines: ["3x + 4 = 19", "3x = 15", "x = 5"], note: "Une étape à la fois" },
+    },
+    marquee: ["Explications claires", "Aide aux devoirs", "Préparation aux examens", "Confiance en classe", "Du primaire au cégep", "Français ou anglais"],
+    intro: {
+      eyebrow: "Pourquoi Northstar",
+      title: "Un soutien individuel en maths, à chaque niveau et à chaque rythme.",
+      stats: [["1:1", "Chaque séance est individuelle"], ["Primaire–cégep", "Tous les niveaux"], ["FR · EN", "Dans l’une ou l’autre langue"], ["MTL + en ligne", "À domicile ou par vidéo"]],
+    },
+    services: {
+      items: [
+        { icon: "math" as IconName, title: "Comprendre les notions", text: "Trouver où ça a décroché et reprendre clairement." },
+        { icon: "target" as IconName, title: "Aide aux devoirs", text: "Avancer dans les travaux et apprendre de ses erreurs." },
+        { icon: "calendar" as IconName, title: "Préparation aux examens", text: "Révision ciblée pour les examens et l’épreuve ministérielle de 4e secondaire." },
+        { icon: "spark" as IconName, title: "Rattraper et améliorer ses notes", text: "Combler les lacunes tout en suivant le cours actuel." },
+      ],
+    },
+    levels: {
+      eyebrow: "À qui s’adresse le tutorat",
+      title: "Du soutien à chaque niveau",
+      ask: "Demandez pour votre cours",
+      items: [
+        { title: "Primaire", text: "Des bases solides et de la confiance avec les nombres, les opérations, les fractions et les problèmes.", tags: ["1re à 6e année", "Bases", "Devoirs"] },
+        { title: "Secondaire", text: "Des méthodes claires pour les longs problèmes et une préparation ciblée aux tests et à l’épreuve ministérielle.", tags: ["Sec. 1 à 5", "Algèbre et fonctions", "Épreuve ministérielle"] },
+        { title: "Cégep", text: "Les notions difficiles, reprises lentement et reliées au cours, avec de la pratique sur les problèmes importants.", tags: ["Précalcul", "Calcul", "Algèbre linéaire"] },
+      ],
+    },
+    about: {
+      eyebrow: "Votre tuteur",
+      title: "Bonjour, je m’appelle Gregory.",
+      body: "Je suis étudiant en génie informatique à McGill et j’ai de l’expérience en tutorat de mathématiques auprès d’élèves de tous âges et niveaux. On ralentit, on trouve l’étape qui bloque et on reconstruit à partir de là, sans jugement. Le but : comprendre comment arriver à la réponse, pas seulement la réponse.",
+      facts: ["Français et anglais", "Tous âges et niveaux", "Montréal et en ligne"],
+      linkedin: "Profil LinkedIn",
+      approach: "Le déroulement d’une séance",
+      steps: [
+        { title: "Partir du vrai travail", text: "On commence avec ce que l’élève fait en classe." },
+        { title: "Trouver ce qui bloque", text: "Cibler l’étape précise qui pose problème." },
+        { title: "Expliquer et pratiquer", text: "Une explication claire, puis de la pratique guidée." },
+        { title: "Devenir autonome", text: "S’assurer que l’élève peut continuer seul." },
+      ],
+    },
+    faq: {
+      eyebrow: "Questions",
+      title: "Questions fréquentes",
+      more: "Autre chose?",
+      items: [
+        ["Combien coûte le tutorat?", "Demandez le tarif actuel. Le prix et la durée sont confirmés avant toute réservation."],
+        ["Combien de temps dure une séance?", "Cela dépend de l’âge et des besoins de l’élève. On choisit la durée ensemble."],
+        ["Où ont lieu les séances?", "En personne à Montréal, à un endroit convenu, ou en ligne par vidéo avec partage d’écran."],
+        ["Que faire si je dois annuler?", "Prévenez-moi le plus tôt possible. Les conditions d’annulation sont convenues avant la réservation."],
+        ["Qu’est-ce que l’élève doit apporter?", "Ses notes, devoirs ou questions difficiles. En ligne, les photos peuvent être envoyées à l’avance."],
+      ],
+    },
+    booking: {
+      eyebrow: "Pour commencer",
+      title: "Expliquez-moi la situation",
+      body: "Envoyez une courte demande. Ce n’est pas une réservation. Je vous réponds pour en discuter.",
+      steps: ["Envoyez la demande", "On discute des besoins, du tarif et de l’horaire", "Première séance"],
+      privacy: "Vos renseignements servent uniquement à répondre à votre demande.",
+      fields: { name: "Votre nom", email: "Courriel", phone: "Téléphone", requester: "Je suis…", grade: "Niveau", subject: "Besoin", format: "Format", date: "Disponibilités", message: "Sur quoi travaille l’élève?" },
+      placeholders: { name: "Nom complet", email: "nom@exemple.com", phone: "(514) 555-0123", date: "ex. mardis après 17 h", message: "Cours, notion et test à venir." },
+      options: {
+        choose: "Choisir…",
+        requester: [["parent", "Parent / tuteur"], ["student", "Élève"]] as [string, string][],
+        grades: ["1re année", "2e année", "3e année", "4e année", "5e année", "6e année", "Secondaire 1", "Secondaire 2", "Secondaire 3", "Secondaire 4", "Secondaire 5", "Cégep 1", "Cégep 2"],
+        subjects: ["Comprendre le cours", "Aide aux devoirs", "Préparation à un test ou examen", "Je ne sais pas encore"],
+        formats: ["En personne", "En ligne", "Les deux conviennent"],
+      },
+      submit: "Envoyer la demande", sending: "Envoi…", successTitle: "Demande reçue.", success: "Je vous contacte bientôt.",
+      error: "Une erreur est survenue. Veuillez réessayer.", notConfigured: "Le formulaire est indisponible pour le moment. Veuillez",
+      emailDirectly: "m’écrire directement", required: "Obligatoire", invalidEmail: "Entrez un courriel valide.", invalidPhone: "Entrez un numéro valide.",
+      emailSubject: "Demande de tutorat en mathématiques",
+    },
+    footer: { tagline: "Tutorat individuel en mathématiques, du primaire au cégep, à Montréal et en ligne.", privacy: "Confidentialité", terms: "Conditions", owner: "Connexion" },
+  },
+};
+
+export type LandingCopy = (typeof copy)["en"];
