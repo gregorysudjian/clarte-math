@@ -31,6 +31,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           <h2>Welcome back</h2>
           <p>Enter your password to open the dashboard.</p>
           {error && <p className="hq-alert" role="alert">{error}</p>}
+          {/* Password managers expect a username; this keeps their saved entry tidy. */}
+          <input type="text" name="username" autoComplete="username" value="Clarté HQ" readOnly hidden />
           <PasswordField />
           <button className="hq-primary hq-login-submit">Sign in<Icon name="arrow" /></button>
           <Link className="hq-login-back" href="/">← Back to website</Link>
