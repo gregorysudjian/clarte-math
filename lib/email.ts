@@ -17,7 +17,7 @@ export function emailConfigured() {
 export async function sendEmail({ to, subject, text, html = textToHtml(text), replyTo }: Email) {
   const gmailUser = process.env.GMAIL_USER?.trim();
   const gmailPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
-  const from = `${site.shortName} Learning`;
+  const from = site.name;
 
   if (gmailUser && gmailPassword) {
     const transport = nodemailer.createTransport({ service: "gmail", auth: { user: gmailUser, pass: gmailPassword } });

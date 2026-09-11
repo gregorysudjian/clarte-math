@@ -4,8 +4,8 @@ import { createContext, useContext, useEffect, useMemo, useSyncExternalStore } f
 
 export type Locale = "en" | "fr";
 
-const KEY = "northstar-locale";
-const EVENT = "northstar-locale";
+const KEY = "clarte-locale";
+const EVENT = "clarte-locale";
 
 type LocaleContextValue = { locale: Locale; setLocale: (locale: Locale) => void };
 const LocaleContext = createContext<LocaleContextValue | null>(null);

@@ -1,4 +1,4 @@
-# Northstar Learning Montreal
+# Clarté Math
 
 My personal tutoring website: bilingual (English/French) one-on-one math tutoring from Grade 1 to CEGEP, in Montreal and online. It has a public landing page with a request form, and a private owner dashboard (**HQ**) for requests, clients, lessons, payments, and notes.
 

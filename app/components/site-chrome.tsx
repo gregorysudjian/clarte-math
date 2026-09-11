@@ -10,8 +10,8 @@ import { useLocale } from "./locale-context";
 export function Brand({ light = false }: { light?: boolean }) {
   return (
     <Link href="/" className={light ? "brand light" : "brand"} aria-label={`${site.name}, home`}>
-      <span className="brand-mark">N</span>
-      <span className="brand-name">Northstar <em>Learning</em></span>
+      <span className="brand-mark">C</span>
+      <span className="brand-name">Clarté <em>Math</em></span>
     </Link>
   );
 }

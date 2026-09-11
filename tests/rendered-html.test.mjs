@@ -18,7 +18,7 @@ const nextBin = createRequire(import.meta.url).resolve("next/dist/bin/next");
 
 // The server gets a throwaway data folder and password, so tests never touch
 // the real HQ data or .env.local values (explicit env vars win over .env files).
-const DATA_DIR = mkdtempSync(path.join(tmpdir(), "northstar-test-"));
+const DATA_DIR = mkdtempSync(path.join(tmpdir(), "clarte-test-"));
 const PASSWORD = "test-password";
 
 let server;
@@ -61,9 +61,9 @@ after(async () => {
 
 // Mirrors lib/auth.ts so a test can present a valid owner session.
 function sessionCookie() {
-  const key = createHash("sha256").update(`northstar-hq::${PASSWORD}`).digest();
+  const key = createHash("sha256").update(`clarte-hq::${PASSWORD}`).digest();
   const expires = String(Math.floor(Date.now() / 1000) + 3600);
-  return `northstar_hq_session=${expires}.${createHmac("sha256", key).update(expires).digest("base64url")}`;
+  return `clarte_hq_session=${expires}.${createHmac("sha256", key).update(expires).digest("base64url")}`;
 }
 
 function fetchSite(path = "/", init = {}) {
@@ -78,7 +78,7 @@ test("renders the tutoring homepage and metadata", async () => {
   const html = await response.text();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-  assert.match(html, /Northstar Learning Montreal/);
+  assert.match(html, /Clarté Math/);
   assert.match(html, /Math can make/);
   assert.match(html, /Mathematics tutoring/);
   assert.match(html, /application\/ld\+json/);
@@ -190,7 +190,7 @@ test("the HQ opens with a valid session and shows saved requests", async () => {
   const login = await fetchSite("/hq/login");
   assert.match(await login.text(), /type="password"/);
 
-  const forged = await fetchSite("/hq/requests", { redirect: "manual", headers: { cookie: "northstar_hq_session=9999999999.forged" } });
+  const forged = await fetchSite("/hq/requests", { redirect: "manual", headers: { cookie: "clarte_hq_session=9999999999.forged" } });
   assert.equal(forged.status, 307);
 
   const requests = await fetchSite("/hq/requests", { headers: { cookie: sessionCookie() } });

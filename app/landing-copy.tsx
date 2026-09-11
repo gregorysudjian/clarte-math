@@ -18,7 +18,7 @@ export const copy = {
     },
     marquee: ["Clear explanations", "Homework help", "Exam preparation", "Confidence in class", "Grade 1 to CEGEP", "English or French"],
     intro: {
-      eyebrow: "Why Northstar",
+      eyebrow: "Why Clarté",
       title: "One-on-one math support for every level and pace.",
       stats: [["1:1", "Every lesson is one-on-one"], ["Gr. 1–CEGEP", "Every level covered"], ["EN · FR", "Lessons in either language"], ["MTL + online", "At home or by video"]],
     },
@@ -103,7 +103,7 @@ export const copy = {
     },
     marquee: ["Explications claires", "Aide aux devoirs", "Préparation aux examens", "Confiance en classe", "Du primaire au cégep", "Français ou anglais"],
     intro: {
-      eyebrow: "Pourquoi Northstar",
+      eyebrow: "Pourquoi Clarté",
       title: "Un soutien individuel en maths, à chaque niveau et à chaque rythme.",
       stats: [["1:1", "Chaque séance est individuelle"], ["Primaire–cégep", "Tous les niveaux"], ["FR · EN", "Dans l’une ou l’autre langue"], ["MTL + en ligne", "À domicile ou par vidéo"]],
     },

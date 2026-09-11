@@ -38,7 +38,7 @@ export async function GET() {
   return new Response(workbook, {
     headers: {
       "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "Content-Disposition": `attachment; filename="northstar-hq-${dayKey(Date.now())}.xlsx"`,
+      "Content-Disposition": `attachment; filename="clarte-math-${dayKey(Date.now())}.xlsx"`,
       "Cache-Control": "no-store",
     },
   });

@@ -1,5 +1,5 @@
 {
-  "name": "northstar-learning-montreal",
+  "name": "clarte-math",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -29,5 +29,5 @@
     "typescript": "5.9.3"
   },
   "type": "module",
-  "displayName": "Northstar Learning Montreal"
+  "displayName": "Clarté Math"
 }

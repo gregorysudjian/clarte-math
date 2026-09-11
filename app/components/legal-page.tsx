@@ -11,14 +11,14 @@ type Section = { title: string; paragraphs?: string[]; items?: string[] };
 export function LegalPage({ type }: { type: "privacy" | "terms" }) {
   const { locale } = useLocale();
   const content = legalCopy[locale][type];
-  return <><Header/><main id="main-content" className="legal-main"><div className="legal-container"><span className="eyebrow">Northstar Learning Montreal</span><h1>{content.title}</h1><p className="legal-updated">{content.updated}</p><article>{content.intro.map((text) => <p key={text}>{text}</p>)}{content.sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((text) => <p key={text}>{text}</p>)}{section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}</section>)}</article><Link className="legal-back" href="/"><Icon name="arrow" style={{ transform: "rotate(180deg)" }}/>{content.back}</Link></div></main><Footer/></>;
+  return <><Header/><main id="main-content" className="legal-main"><div className="legal-container"><span className="eyebrow">Clarté Math</span><h1>{content.title}</h1><p className="legal-updated">{content.updated}</p><article>{content.intro.map((text) => <p key={text}>{text}</p>)}{content.sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((text) => <p key={text}>{text}</p>)}{section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}</section>)}</article><Link className="legal-back" href="/"><Icon name="arrow" style={{ transform: "rotate(180deg)" }}/>{content.back}</Link></div></main><Footer/></>;
 }
 
 const legalCopy: Record<"en" | "fr", Record<"privacy" | "terms", { title: string; updated: string; intro: string[]; sections: Section[]; back: string }>> = {
   en: {
     privacy: {
       title: "Privacy policy", updated: "Last updated: August 2, 2026", back: "Back to the home page",
-      intro: ["This policy explains how Northstar Learning Montreal collects, uses, and protects personal information when a parent, guardian, or student contacts us or requests tutoring."],
+      intro: ["This policy explains how Clarté Math collects, uses, and protects personal information when a parent, guardian, or student contacts us or requests tutoring."],
       sections: [
         { title: "Information we collect", items: ["Contact details such as name, email address, and phone number.", "Student information such as grade, mathematics learning goals, and scheduling preferences.", "Messages and records needed to coordinate tutoring."] },
         { title: "How information is used", paragraphs: ["Information is used to respond to requests, assess whether the tutoring service is a suitable fit, schedule lessons, communicate about the service, and meet reasonable legal or safety obligations. Information is not sold or used for unrelated advertising."] },
@@ -31,7 +31,7 @@ const legalCopy: Record<"en" | "fr", Record<"privacy" | "terms", { title: string
     },
     terms: {
       title: "Terms of service", updated: "Last updated: August 2, 2026", back: "Back to the home page",
-      intro: ["These terms apply to tutoring arranged with Northstar Learning Montreal. The specific lesson rate, duration, location, and schedule are confirmed directly before a booking becomes final."],
+      intro: ["These terms apply to tutoring arranged with Clarté Math. The specific lesson rate, duration, location, and schedule are confirmed directly before a booking becomes final."],
       sections: [
         { title: "Tutoring service", paragraphs: ["Tutoring provides educational support in mathematics for students from Grade 1 through CEGEP. It does not replace a school, teacher, professional assessment, or specialized educational service."] },
         { title: "Bookings", paragraphs: ["Submitting the website form is a request, not a confirmed appointment. A lesson is confirmed only after the tutor and parent, guardian, or adult student agree on the time, format, price, and other relevant details."] },
@@ -47,7 +47,7 @@ const legalCopy: Record<"en" | "fr", Record<"privacy" | "terms", { title: string
   fr: {
     privacy: {
       title: "Politique de confidentialité", updated: "Dernière mise à jour : 2 août 2026", back: "Retour à la page d’accueil",
-      intro: ["Cette politique explique comment Northstar Learning Montreal recueille, utilise et protège les renseignements personnels lorsqu’un parent, un tuteur ou un élève communique avec nous ou demande du tutorat."],
+      intro: ["Cette politique explique comment Clarté Math recueille, utilise et protège les renseignements personnels lorsqu’un parent, un tuteur ou un élève communique avec nous ou demande du tutorat."],
       sections: [
         { title: "Renseignements recueillis", items: ["Coordonnées comme le nom, l’adresse courriel et le numéro de téléphone.", "Renseignements sur l’élève comme le niveau, les objectifs en mathématiques et les préférences d’horaire.", "Messages et notes nécessaires à l’organisation du tutorat."] },
         { title: "Utilisation des renseignements", paragraphs: ["Les renseignements servent à répondre aux demandes, à vérifier si le service convient, à planifier les séances, à communiquer au sujet du service et à respecter des obligations légales ou de sécurité raisonnables. Ils ne sont ni vendus ni utilisés pour de la publicité sans lien avec le service."] },
@@ -60,7 +60,7 @@ const legalCopy: Record<"en" | "fr", Record<"privacy" | "terms", { title: string
     },
     terms: {
       title: "Conditions de service", updated: "Dernière mise à jour : 2 août 2026", back: "Retour à la page d’accueil",
-      intro: ["Ces conditions s’appliquent au tutorat organisé avec Northstar Learning Montreal. Le tarif, la durée, le lieu et l’horaire sont confirmés directement avant qu’une réservation devienne définitive."],
+      intro: ["Ces conditions s’appliquent au tutorat organisé avec Clarté Math. Le tarif, la durée, le lieu et l’horaire sont confirmés directement avant qu’une réservation devienne définitive."],
       sections: [
         { title: "Service de tutorat", paragraphs: ["Le tutorat offre un soutien pédagogique en mathématiques de la 1re année du primaire jusqu’au cégep. Il ne remplace pas une école, un enseignant, une évaluation professionnelle ou un service spécialisé."] },
         { title: "Réservations", paragraphs: ["L’envoi du formulaire constitue une demande et non un rendez-vous confirmé. Une séance est confirmée uniquement lorsque le tuteur et le parent, le tuteur légal ou l’élève adulte s’entendent sur l’horaire, le format, le prix et les autres détails pertinents."] },
