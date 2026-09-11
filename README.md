@@ -4,6 +4,8 @@ My personal tutoring website: bilingual (English/French) one-on-one math tutorin
 
 Built with Next.js 16 (App Router, React 19). No external database: the dashboard keeps its records in a file on the server.
 
+**Live:** https://clarte-math.vercel.app (deployed on Vercel from `main`; every push redeploys). The dashboard's data file only persists on a host with a disk, so the online dashboard is view-only.
+
 ## Run it
 
 Requires Node.js 22.13+.
