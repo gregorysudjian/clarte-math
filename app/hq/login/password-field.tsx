@@ -8,7 +8,7 @@ export default function PasswordField() {
     <label className="hq-field">
       <span>Password</span>
       <span className="hq-password">
-        <input name="password" type={visible ? "text" : "password"} autoComplete="current-password" autoFocus required />
+        <input name="password" type={visible ? "text" : "password"} autoComplete="current-password" autoCapitalize="off" spellCheck={false} autoFocus required />
         <button type="button" onClick={() => setVisible((v) => !v)} aria-label={visible ? "Hide password" : "Show password"} aria-pressed={visible}>
           {visible ? "Hide" : "Show"}
         </button>

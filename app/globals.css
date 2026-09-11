@@ -35,6 +35,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 svg { width: 1.2em; height: 1.2em; flex: none; }
 :focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+/* Keep browser autofill from painting fields light blue and grey. */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, select:-webkit-autofill, textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink);
+  caret-color: var(--ink);
+  transition: background-color 0s 600000s, color 0s 600000s;
+}
 
 .wrap { position: relative; z-index: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 .section { position: relative; padding: 110px 0; }
