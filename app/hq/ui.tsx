@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
+import { Children, cloneElement, createContext, isValidElement, useContext, type ReactElement, type ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import type { Booking, Client, HqData, Note, Session } from "./data";
 import { label } from "./format";
@@ -30,6 +30,12 @@ export const stateOf = (row: { deleted_at: string | null; archived_at?: string |
 export const matches = (query: string, ...fields: (string | null | undefined)[]) =>
   !query || fields.some((field) => String(field || "").toLowerCase().includes(query.toLowerCase()));
 
+/** What a client still owes for a lesson. Only lessons that actually took place count. */
+export const owed = (s: Session) => (s.status === "completed" && s.payment_status !== "waived" ? Math.max(0, s.amount_due_cents - s.amount_paid_cents) : 0);
+
+/** The payment label to show: an unpaid lesson that hasn't happened is "not due", not "unpaid". */
+export const paymentState = (s: Session) => (s.payment_status !== "unpaid" || s.status === "completed" ? s.payment_status : s.status === "scheduled" ? "not_due" : s.status);
+
 export const activeClients = (clients: Client[]) => clients.filter((c) => !c.deleted_at && c.status !== "archived");
 
 export function Person({ name, sub }: { name: string; sub?: ReactNode }) {
@@ -55,32 +61,38 @@ export function Empty({ text, action }: { text: string; action?: ReactNode }) {
   );
 }
 
+const HeadersContext = createContext<string[]>([]);
+
 export function Table({ headers, rows, empty }: { headers: string[]; rows: ReactNode[]; empty: string }) {
   return (
-    <div className="hq-table">
-      <table>
-        <thead>
-          <tr>{headers.map((h) => <th key={h}>{h}</th>)}</tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
-      {rows.length === 0 && <Empty text={empty} />}
-    </div>
+    <HeadersContext.Provider value={headers}>
+      <div className="hq-table">
+        <table>
+          <thead>
+            <tr>{headers.map((h) => <th key={h}>{h}</th>)}</tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </table>
+        {rows.length === 0 && <Empty text={empty} />}
+      </div>
+    </HeadersContext.Provider>
   );
 }
 
-/** A clickable, keyboard-accessible table row. */
+/** A clickable, keyboard-accessible table row. Each cell carries its column name so phones can show rows as cards. */
 export function Row({ onOpen, children }: { onOpen: () => void; children: ReactNode }) {
+  const headers = useContext(HeadersContext);
   return (
     <tr tabIndex={0} onClick={onOpen} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onOpen())}>
-      {children}
+      {Children.map(children, (cell, i) => (isValidElement(cell) ? cloneElement(cell as ReactElement<Record<string, unknown>>, { "data-label": headers[i] }) : cell))}
     </tr>
   );
 }
 
 export function Toolbar({
-  query, setQuery, status, setStatus, statuses, view, setView, counts,
+  query, setQuery, status, setStatus, statuses, allLabel = "All statuses", view, setView, counts,
 }: {
+  allLabel?: string;
   query: string; setQuery: (v: string) => void;
   status: string; setStatus: (v: string) => void; statuses: string[];
   view?: RecordState; setView?: (v: RecordState) => void; counts?: Record<RecordState, number>;
@@ -89,8 +101,8 @@ export function Toolbar({
     <div className="hq-toolbar">
       <input className="hq-search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…" aria-label="Search" />
       {statuses.length > 0 && (
-        <select value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Filter by status">
-          <option value="all">All statuses</option>
+        <select value={status} onChange={(e) => setStatus(e.target.value)} aria-label={allLabel}>
+          <option value="all">{allLabel}</option>
           {statuses.map((s) => <option key={s} value={s}>{label(s)}</option>)}
         </select>
       )}

@@ -93,7 +93,7 @@ export const copy = {
     cta: "Demander du tutorat",
     hero: {
       eyebrow: "Tutorat individuel en mathématiques · Montréal",
-      title: ["Les maths peuvent devenir ", "claires", ". Travaillons-y ensemble."],
+      title: ["Les maths peuvent devenir ", "claires", ". Travaillons-\u2060y ensemble."],
       body: "Un tutorat patient et ciblé, du primaire au cégep, en personne à Montréal ou en ligne, en français ou en anglais.",
       primary: "Demander du tutorat",
       secondary: "Matières couvertes",

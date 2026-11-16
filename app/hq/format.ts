@@ -16,6 +16,13 @@ export const formatDate = (value: string, withTime = true) =>
 export const formatTime = (value: string) =>
   new Intl.DateTimeFormat("en-CA", { hour: "numeric", minute: "2-digit", timeZone: TZ }).format(new Date(value));
 
+/** A friendly lesson time: "Today, 5:00 p.m.", "Tomorrow, …", otherwise "Wed, Nov 18, 4:00 p.m.". */
+export const formatWhen = (value: string, now: number) => {
+  const day = dayKey(value);
+  const name = day === dayKey(now) ? "Today" : day === dayKey(now + 864e5) ? "Tomorrow" : new Intl.DateTimeFormat("en-CA", { weekday: "short", month: "short", day: "numeric", timeZone: TZ }).format(new Date(value));
+  return `${name}, ${formatTime(value)}`;
+};
+
 function parts(value: string | number | Date) {
   const list = new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23" }).formatToParts(new Date(value));
   const get = (type: string) => list.find((p) => p.type === type)?.value || "00";

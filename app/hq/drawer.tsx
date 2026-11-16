@@ -4,7 +4,7 @@ import { useEffect, useTransition, type ReactNode } from "react";
 import { changeRecord, convertRequest, saveClient, saveLesson, saveNote, savePayment, saveRequest, sendMessage, type RecordKind, type RecordOp, type Result } from "./actions";
 import type { Booking, Client, Note, Session } from "./data";
 import { dollars, formatDate, label, localInput, money, phone } from "./format";
-import { Badge, Field, Money, Options, Submit, activeClients, stateOf, useHq, type Panel, type RecordState } from "./ui";
+import { Badge, Field, Money, Options, Submit, activeClients, owed, paymentState, stateOf, useHq, type Panel, type RecordState } from "./ui";
 
 const GRADES = [...Array.from({ length: 6 }, (_, i) => `Grade ${i + 1}`), ...Array.from({ length: 5 }, (_, i) => `Secondary ${i + 1}`), "CEGEP 1", "CEGEP 2"];
 const SIGNATURE = "Best,\nGregory\nClarté Math";
@@ -152,7 +152,7 @@ function ClientPanel({ item }: { item?: Client }) {
   const submit = useSubmit();
   const lessons = item ? data.sessions.filter((s) => s.client_id === item.id && !s.deleted_at) : [];
   const notes = item ? data.notes.filter((n) => n.client_id === item.id) : [];
-  const owed = lessons.reduce((n, s) => n + (s.payment_status === "waived" ? 0 : Math.max(0, s.amount_due_cents - s.amount_paid_cents)), 0);
+  const totalOwed = lessons.reduce((n, s) => n + owed(s), 0);
 
   return (
     <>
@@ -163,7 +163,7 @@ function ClientPanel({ item }: { item?: Client }) {
           {item.email && (
             <button className="hq-secondary" onClick={() => open({ kind: "email", to: item.email!, subject: "Math tutoring", message: `Hello ${item.guardian_name || item.full_name},\n\n\n${SIGNATURE}`, clientId: item.id, back: { kind: "client", item } })}>Email</button>
           )}
-          <span>{lessons.length} lessons · {money(owed)} owed</span>
+          <span>{lessons.length} {lessons.length === 1 ? "lesson" : "lessons"} · {money(totalOwed)} owed</span>
         </div>
       )}
       <form className="hq-form" action={submit(saveClient)}>
@@ -199,7 +199,7 @@ function ClientPanel({ item }: { item?: Client }) {
             <button key={s.id} onClick={() => open({ kind: "lesson", item: s })}>
               <span>{formatDate(s.starts_at)}</span>
               <Badge value={s.status} />
-              <Badge value={s.payment_status} />
+              <Badge value={paymentState(s)} />
             </button>
           ))}
           {notes.length > 0 && <h3>Recent notes</h3>}
@@ -254,6 +254,7 @@ function LessonPanel({ item, clientId, startsAt }: { item?: Session; clientId?: 
         <Field label="Status"><select name="status" defaultValue={item?.status || "scheduled"}><Options values={["scheduled", "completed", "cancelled", "no_show"]} /></select></Field>
         <Field label="Subject"><input name="subject" placeholder="Mathematics" defaultValue={item?.subject || ""} /></Field>
         <Field label="Location or link"><input name="location_or_link" defaultValue={item?.location_or_link || ""} /></Field>
+        <h3 className="hq-form-heading">Payment</h3>
         <PaymentFields item={item} isNew={!item} />
         <Field label="Lesson notes" wide><textarea name="notes" rows={3} defaultValue={item?.notes || ""} /></Field>
         <div className="hq-form-actions"><Submit>{item ? "Save" : "Schedule"}</Submit></div>

@@ -209,12 +209,12 @@ export async function convertRequest(rawId: number) {
       const at = now();
       const client = {
         id: ++db.seq.clients, created_at: at, updated_at: at,
-        full_name: request.name, guardian_name: null, email: request.email, phone: request.phone, grade: request.grade,
+        full_name: request.name, guardian_name: request.requester === "parent" ? request.name : null, email: request.email, phone: request.phone, grade: request.grade,
         preferred_language: request.language === "fr" ? "fr" : "en", status: "active", hourly_rate_cents: 0, notes: request.learning_goals, deleted_at: null,
       };
       db.clients.push(client);
       Object.assign(request, { client_id: client.id, status: "scheduled", updated_at: at });
-      return "Client created from the request.";
+      return request.requester === "parent" ? "Client created. Open it to add the student's name." : "Client created from the request.";
     }),
   );
 }

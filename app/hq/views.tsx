@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Icon, type IconName } from "../components/icons";
 import type { Session } from "./data";
-import { dayKey, formatDate, formatTime, label, money } from "./format";
-import { Badge, Empty, Person, Row, Table, Toolbar, activeClients, matches, stateOf, useHq, type RecordState } from "./ui";
+import { dayKey, formatDate, formatTime, formatWhen, label, money } from "./format";
+import { Badge, Empty, Person, Row, Table, Toolbar, activeClients, matches, owed, paymentState, stateOf, useHq, type RecordState } from "./ui";
 
-const balance = (s: Session) => Math.max(0, s.amount_due_cents - s.amount_paid_cents);
 const live = (s: Session) => !s.deleted_at && !s.archived_at;
 
 function useFilters() {
@@ -33,32 +33,35 @@ export function Overview() {
   const weekEnd = now + 7 * 864e5;
   const thisMonth = dayKey(now).slice(0, 7);
   const collected = sessions.filter((s) => s.paid_at && dayKey(s.paid_at).startsWith(thisMonth)).reduce((n, s) => n + s.amount_paid_cents, 0);
-  const unpaid = sessions.filter((s) => s.status === "completed" && balance(s) > 0 && s.payment_status !== "waived");
+  const unpaid = sessions.filter((s) => owed(s) > 0);
   const followUps = data.notes.filter((n) => n.follow_up_at && +new Date(n.follow_up_at) <= now + 864e5);
+  // Lessons whose time has passed but are still marked "scheduled".
+  const unconfirmed = sessions.filter((s) => s.status === "scheduled" && +new Date(s.starts_at) + s.duration_minutes * 6e4 < now);
 
-  const stats: [string, string | number, IconName][] = [
-    ["New requests", newRequests.length, "inbox"],
-    ["Lessons next 7 days", upcoming.filter((s) => +new Date(s.starts_at) < weekEnd).length, "calendar"],
-    ["Active clients", data.clients.filter((c) => c.status === "active" && !c.deleted_at).length, "users"],
-    ["Outstanding", money(unpaid.reduce((n, s) => n + balance(s), 0)), "clock"],
-    ["Collected this month", money(collected), "wallet"],
+  const stats: [string, string | number, IconName, string][] = [
+    ["New requests", newRequests.length, "inbox", "/hq/requests"],
+    ["Lessons next 7 days", upcoming.filter((s) => +new Date(s.starts_at) < weekEnd).length, "calendar", "/hq/lessons"],
+    ["Active clients", data.clients.filter((c) => c.status === "active" && !c.deleted_at).length, "users", "/hq/clients"],
+    ["Owed to you", money(unpaid.reduce((n, s) => n + owed(s), 0)), "clock", "/hq/payments"],
+    ["Collected this month", money(collected), "wallet", "/hq/payments"],
   ];
 
   const attention = [
     ...newRequests.map((b) => ({ key: `r${b.id}`, tag: "new", title: b.name, meta: `${b.grade} · ${formatDate(b.created_at, false)}`, onOpen: () => open({ kind: "request", item: b }) })),
     ...followUps.map((n) => ({ key: `n${n.id}`, tag: "follow_up", title: n.title || n.clients?.full_name || "Follow-up", meta: `${n.clients?.full_name ?? ""} · ${formatDate(n.follow_up_at!, false)}`, onOpen: () => open({ kind: "note", item: n }) })),
-    ...unpaid.map((s) => ({ key: `p${s.id}`, tag: "unpaid", title: s.clients?.full_name || "Lesson", meta: `${money(balance(s))} · ${formatDate(s.starts_at, false)}`, onOpen: () => open({ kind: "payment", item: s }) })),
+    ...unconfirmed.map((s) => ({ key: `u${s.id}`, tag: "update_status", title: s.clients?.full_name || "Lesson", meta: `Did it happen? · ${formatDate(s.starts_at, false)}`, onOpen: () => open({ kind: "lesson", item: s }) })),
+    ...unpaid.map((s) => ({ key: `p${s.id}`, tag: "unpaid", title: s.clients?.full_name || "Lesson", meta: `${money(owed(s))} · ${formatDate(s.starts_at, false)}`, onOpen: () => open({ kind: "payment", item: s }) })),
   ];
 
   return (
     <>
       <section className="hq-kpis">
-        {stats.map(([name, value, icon]) => (
-          <article key={name}>
+        {stats.map(([name, value, icon, href]) => (
+          <Link key={name} href={href}>
             <i><Icon name={icon} /></i>
             <span>{name}</span>
             <strong>{value}</strong>
-          </article>
+          </Link>
         ))}
       </section>
       <section className="hq-overview">
@@ -68,7 +71,7 @@ export function Overview() {
             <div className="hq-list">
               {upcoming.slice(0, 8).map((s) => (
                 <button key={s.id} onClick={() => open({ kind: "lesson", item: s })}>
-                  <time>{formatDate(s.starts_at)}</time>
+                  <time>{formatWhen(s.starts_at, now)}</time>
                   <b>{s.clients?.full_name}</b>
                   <small>{s.duration_minutes} min · {label(s.lesson_format)}</small>
                 </button>
@@ -141,7 +144,7 @@ export function Clients() {
     <>
       <Toolbar {...f} statuses={f.view === "current" ? ["lead", "active", "paused"] : []} counts={countStates(data.clients, (c) => stateOf(c, true))} />
       <Table
-        headers={["Client", "Contact", "Grade", "Rate", "Lessons", "Balance", "Status"]}
+        headers={["Client", "Contact", "Grade", "Rate", "Lessons", "Owes", "Status"]}
         empty="No clients here."
         rows={rows.map((c) => {
           const lessons = data.sessions.filter((s) => s.client_id === c.id && live(s));
@@ -152,7 +155,7 @@ export function Clients() {
               <td>{c.grade || "—"}</td>
               <td>{c.hourly_rate_cents ? `${money(c.hourly_rate_cents)}/h` : "—"}</td>
               <td>{lessons.length}</td>
-              <td>{money(lessons.reduce((n, s) => n + (s.payment_status === "waived" ? 0 : balance(s)), 0))}</td>
+              <td>{money(lessons.reduce((n, s) => n + owed(s), 0))}</td>
               <td><Badge value={c.deleted_at ? "deleted" : c.status} /></td>
             </Row>
           );
@@ -198,7 +201,7 @@ function LessonList() {
             <td>{label(s.lesson_format)}<small>{s.location_or_link}</small></td>
             <td>{s.duration_minutes} min</td>
             <td><Badge value={s.status} /></td>
-            <td><Badge value={s.payment_status} /></td>
+            <td><Badge value={paymentState(s)} /></td>
           </Row>
         ))}
       />
@@ -286,20 +289,20 @@ export function Payments() {
   const { data, open } = useHq();
   const f = useFilters();
   const sessions = data.sessions.filter((s) => !s.deleted_at);
-  const rows = sessions.filter((s) => (f.status === "all" || s.payment_status === f.status) && matches(f.query, s.clients?.full_name, s.subject, s.payment_method));
-  const counted = sessions.filter((s) => s.payment_status !== "waived");
-  const charged = counted.reduce((n, s) => n + s.amount_due_cents, 0);
-  const paid = counted.reduce((n, s) => n + s.amount_paid_cents, 0);
+  const rows = sessions.filter((s) => (f.status === "all" || paymentState(s) === f.status) && matches(f.query, s.clients?.full_name, s.subject, s.payment_method));
+  // Totals cover lessons that took place; upcoming and cancelled lessons aren't owed yet.
+  const charged = sessions.filter((s) => s.status === "completed" && s.payment_status !== "waived").reduce((n, s) => n + s.amount_due_cents, 0);
+  const paid = sessions.reduce((n, s) => n + s.amount_paid_cents, 0);
   return (
     <>
       <section className="hq-kpis hq-kpis-3">
-        <article><span>Charged</span><strong>{money(charged)}</strong></article>
+        <article><span>Charged for completed lessons</span><strong>{money(charged)}</strong></article>
         <article><span>Collected</span><strong>{money(paid)}</strong></article>
-        <article><span>Outstanding</span><strong>{money(counted.reduce((n, s) => n + balance(s), 0))}</strong></article>
+        <article><span>Owed to you</span><strong>{money(sessions.reduce((n, s) => n + owed(s), 0))}</strong></article>
       </section>
-      <Toolbar {...f} statuses={["unpaid", "partial", "paid", "waived"]} />
+      <Toolbar {...f} statuses={["unpaid", "partial", "paid", "not_due", "waived"]} />
       <Table
-        headers={["Lesson", "Client", "Charged", "Paid", "Balance", "Method", "Status"]}
+        headers={["Lesson", "Client", "Price", "Paid", "Owes", "Method", "Status"]}
         empty="No payments here."
         rows={rows.map((s) => (
           <Row key={s.id} onOpen={() => open({ kind: "payment", item: s })}>
@@ -307,9 +310,9 @@ export function Payments() {
             <td><Person name={s.clients?.full_name || "Client"} /></td>
             <td>{money(s.amount_due_cents)}</td>
             <td>{money(s.amount_paid_cents)}{s.paid_at && <small>{formatDate(s.paid_at, false)}</small>}</td>
-            <td>{s.payment_status === "waived" ? "—" : money(balance(s))}</td>
+            <td>{owed(s) ? money(owed(s)) : "—"}</td>
             <td>{s.payment_method ? label(s.payment_method) : "—"}</td>
-            <td><Badge value={s.payment_status} /></td>
+            <td><Badge value={paymentState(s)} /></td>
           </Row>
         ))}
       />
@@ -325,7 +328,7 @@ export function Notes() {
   const rows = data.notes.filter((n) => (f.status === "all" || n.note_type === f.status) && matches(f.query, n.clients?.full_name, n.title, n.body));
   return (
     <>
-      <Toolbar {...f} statuses={["general", "lesson", "progress", "email", "phone", "payment"]} />
+      <Toolbar {...f} allLabel="All types" statuses={["general", "lesson", "progress", "email", "phone", "payment"]} />
       {rows.length ? (
         <div className="hq-notes">
           {rows.map((n) => (
